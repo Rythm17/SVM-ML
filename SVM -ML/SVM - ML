@@ -1,0 +1,69 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn import datasets
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.svm import NuSVC
+from sklearn.metrics import accuracy_score
+
+# Load the digits dataset
+digits_dataset = datasets.load_digits()
+features = digits_dataset.data
+labels = digits_dataset.target
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size = 0.3, random_state = 42)
+
+# Define the parameter grid for GridSearchCV
+grid_parameters = {
+    'nu': [0.1, 0.5, 0.9],
+    'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
+    'gamma': ['scale', 'auto'],
+    'degree': [2, 3, 4],
+}
+
+# Initialize NuSVC
+nu_svc_model = NuSVC()
+
+# Perform GridSearchCV
+model_tuner = GridSearchCV(estimator=nu_svc_model, param_grid = grid_parameters, cv=5, n_jobs=-1, verbose=1)
+model_tuner.fit(X_train, y_train)
+
+# Get the best parameters and accuracies
+optimal_params = model_tuner.best_params_
+cv_best_accuracy = model_tuner.best_score_
+
+# Predict on the test set
+predicted_labels = model_tuner.best_estimator_.predict(X_test)
+test_set_accuracy = accuracy_score(y_test, predicted_labels)
+
+# Prepare the results for saving
+optimization_results = pd.DataFrame({
+    'Optimal Parameters': [optimal_params],
+    'Best Cross-Validation Accuracy': [cv_best_accuracy],
+    'Test Set Accuracy': [test_set_accuracy]
+})
+
+# Save the results to a CSV file
+csv_file_name = 'optimized_svm_results.csv'
+optimization_results.to_csv(csv_file_name, index=False)
+print(f"Optimization results saved to {csv_file_name}")
+
+# Get the mean test scores for convergence graph
+search_results = model_tuner.cv_results_
+mean_cv_scores = search_results['mean_test_score']
+iteration_steps = range(1, len(mean_cv_scores) + 1)
+
+# Plot the convergence graph
+plt.plot(iteration_steps, mean_cv_scores, marker='o')
+plt.title("Convergence Graph of NuSVC Hyperparameter Tuning")
+plt.xlabel("Search Iterations")
+plt.ylabel("Cross-Validation Accuracy")
+plt.grid(True)
+
+# Save the convergence graph as an image
+graph_file_name = 'optimization_convergence_graph.png'
+plt.savefig(graph_file_name)
+print(f"Convergence graph saved to {graph_file_name}")
+
+plt.show()
