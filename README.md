@@ -45,7 +45,8 @@ Convergence Graph: A plot of cross-validation accuracy across iterations is gene
 ## Code Overview
 1. Dataset: The digits dataset is used, containing features (data) and labels (target).
 2. GridSearchCV:
-   a. Parameter grid:
+
+   . Parameter grid:
       ```python
      grid_parameters = {
     'nu': [0.1, 0.5, 0.9],
@@ -54,9 +55,10 @@ Convergence Graph: A plot of cross-validation accuracy across iterations is gene
     'degree': [2, 3, 4],
      }
       ```
-3. 5-fold cross-validation is used to find the optimal parameters.
-4. Evaluation:
-   a. Cross-validation accuracy and test set accuracy are calculated and saved.
+4. 5-fold cross-validation is used to find the optimal parameters.
+5. Evaluation:
+   
+   . Cross-validation accuracy and test set accuracy are calculated and saved.
 
 
 
