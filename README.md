@@ -12,8 +12,11 @@ This project demonstrates the use of Nu-Support Vector Classifier (NuSVC) for di
 Ensure the following Python packages are installed:
 
 numpy
+
 pandas
+
 matplotlib
+
 scikit-learn
 
 Install them using pip:
@@ -21,7 +24,7 @@ Install them using pip:
    pip install numpy pandas matplotlib scikit-learn
 ```
 
-#Usage
+## Usage
 Clone the repository:
 ```bash
    git clone https://github.com/your-username/parameter-optimization-svm.git
@@ -35,28 +38,25 @@ Run the script:
    python svm_parameter_optimization.py
 ```
 ## Outputs
-Optimal Hyperparameters:
+Optimal Hyperparameters: The best combination of NuSVC hyperparameters is identified and saved to a CSV file named optimized_svm_results.csv.
 
-The best combination of NuSVC hyperparameters is identified and saved to a CSV file named optimized_svm_results.csv.
-Convergence Graph:
-
-A plot of cross-validation accuracy across iterations is generated and saved as optimization_convergence_graph.png.
+Convergence Graph: A plot of cross-validation accuracy across iterations is generated and saved as optimization_convergence_graph.png.
 
 ## Code Overview
-Dataset: The digits dataset is used, containing features (data) and labels (target).
-GridSearchCV:
-Parameter grid:
-```python
-grid_parameters = {
+1. Dataset: The digits dataset is used, containing features (data) and labels (target).
+2. GridSearchCV:
+   a. Parameter grid:
+      ```python
+     grid_parameters = {
     'nu': [0.1, 0.5, 0.9],
     'kernel': ['linear', 'poly', 'rbf', 'sigmoid'],
     'gamma': ['scale', 'auto'],
     'degree': [2, 3, 4],
-}
-```
-5-fold cross-validation is used to find the optimal parameters.
-Evaluation:
-Cross-validation accuracy and test set accuracy are calculated and saved.
+     }
+      ```
+3. 5-fold cross-validation is used to find the optimal parameters.
+4. Evaluation:
+   a. Cross-validation accuracy and test set accuracy are calculated and saved.
 
 
 
